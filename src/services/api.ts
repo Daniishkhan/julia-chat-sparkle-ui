@@ -24,6 +24,8 @@ interface Subcontractor {
   employeeCount: number;
   projectCapacity: string;
   match_explanation: string;
+  website?: string;
+  description?: string;
 }
 
 interface SubcontractorResponse {
@@ -65,7 +67,9 @@ export const findSubcontractors = async (text: string): Promise<SubcontractorRes
           yearsInBusiness: 15,
           employeeCount: 150,
           projectCapacity: "$5M-$20M",
-          match_explanation: "Metro Construction Solutions is located in Manhattan, NYC, and has 'Steel Fabrication' listed in their capabilities."
+          match_explanation: "Metro Construction Solutions is located in Manhattan, NYC, and has 'Steel Fabrication' listed in their capabilities.",
+          website: "www.metroconstruction.com",
+          description: "Metro Construction Solutions is a leading general contractor specializing in commercial and industrial projects throughout New York City. With over 15 years of experience, we provide top-quality construction services including steel fabrication, concrete work, and general contracting."
         },
         {
           id: "SC002",
@@ -89,7 +93,9 @@ export const findSubcontractors = async (text: string): Promise<SubcontractorRes
           yearsInBusiness: 8,
           employeeCount: 75,
           projectCapacity: "$1M-$10M",
-          match_explanation: "Brooklyn Steel Experts is located in Brooklyn, NYC, and specializes in steel fabrication and structural steel work."
+          match_explanation: "Brooklyn Steel Experts is located in Brooklyn, NYC, and specializes in steel fabrication and structural steel work.",
+          website: "www.brooklynsteel.com",
+          description: "Brooklyn Steel Experts is a woman-owned business specializing in structural steel fabrication and installation for commercial and residential projects. We pride ourselves on quality craftsmanship, timely delivery, and competitive pricing."
         },
         {
           id: "SC003",
@@ -113,7 +119,9 @@ export const findSubcontractors = async (text: string): Promise<SubcontractorRes
           yearsInBusiness: 12,
           employeeCount: 60,
           projectCapacity: "$2M-$8M",
-          match_explanation: "Queens Metalworks Inc. provides steel fabrication and metal work services in the NYC area."
+          match_explanation: "Queens Metalworks Inc. provides steel fabrication and metal work services in the NYC area.",
+          website: "www.queensmetalworks.com",
+          description: "Queens Metalworks Inc. is a minority-owned business providing comprehensive metal fabrication and steel erection services. We specialize in custom metalwork, structural steel installation, and certified welding for commercial, industrial, and institutional projects."
         },
         {
           id: "SC004",
@@ -137,7 +145,9 @@ export const findSubcontractors = async (text: string): Promise<SubcontractorRes
           yearsInBusiness: 20,
           employeeCount: 45,
           projectCapacity: "$500K-$5M",
-          match_explanation: "Bronx Metal Fabrication provides custom steel fabrication services in NYC."
+          match_explanation: "Bronx Metal Fabrication provides custom steel fabrication services in NYC.",
+          website: "www.bronxmetalfab.com",
+          description: "With 20 years of experience, Bronx Metal Fabrication specializes in custom steel fabrication and ornamental metalwork. Our craftsmen create architectural and decorative metal pieces that combine functionality with aesthetic appeal."
         },
         {
           id: "SC005",
@@ -161,7 +171,9 @@ export const findSubcontractors = async (text: string): Promise<SubcontractorRes
           yearsInBusiness: 17,
           employeeCount: 35,
           projectCapacity: "$1M-$7M",
-          match_explanation: "Staten Island Steel Construction provides structural steel services throughout NYC."
+          match_explanation: "Staten Island Steel Construction provides structural steel services throughout NYC.",
+          website: "www.statenislandsteel.com",
+          description: "Staten Island Steel Construction is a service-disabled veteran-owned business specializing in structural steel and framing. We offer comprehensive services from steel detailing to installation for projects of various sizes."
         }
       ],
       total_matches: 5,

@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Eye, Mail, Phone } from "lucide-react";
+import CompanyDetailsModal from './CompanyDetailsModal';
 
 interface Subcontractor {
   id: string;
@@ -21,6 +22,8 @@ interface Subcontractor {
   employeeCount: number;
   projectCapacity: string;
   match_explanation: string;
+  website?: string;
+  description?: string;
 }
 
 interface SubcontractorListProps {
@@ -30,6 +33,7 @@ interface SubcontractorListProps {
 
 const SubcontractorList: React.FC<SubcontractorListProps> = ({ subcontractors, query }) => {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [viewingCompany, setViewingCompany] = useState<Subcontractor | null>(null);
 
   const toggleSelection = (id: string) => {
     setSelectedIds(prevSelected => 
@@ -75,13 +79,29 @@ const SubcontractorList: React.FC<SubcontractorListProps> = ({ subcontractors, q
             </div>
             
             <div className="flex gap-2">
-              <Button variant="ghost" size="icon" className="h-8 w-8" title="View details">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="h-8 w-8" 
+                title="View details"
+                onClick={() => setViewingCompany(subcontractor)}
+              >
                 <Eye className="h-4 w-4" />
               </Button>
-              <Button variant="ghost" size="icon" className="h-8 w-8" title={`Email: ${subcontractor.email}`}>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="h-8 w-8" 
+                title={`Email: ${subcontractor.email}`}
+              >
                 <Mail className="h-4 w-4" />
               </Button>
-              <Button variant="ghost" size="icon" className="h-8 w-8" title={`Call: ${subcontractor.phone}`}>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="h-8 w-8" 
+                title={`Call: ${subcontractor.phone}`}
+              >
                 <Phone className="h-4 w-4" />
               </Button>
             </div>
@@ -98,6 +118,12 @@ const SubcontractorList: React.FC<SubcontractorListProps> = ({ subcontractors, q
           <Mail className="mr-2 h-4 w-4" /> Email Selected ({selectedIds.length})
         </Button>
       )}
+
+      <CompanyDetailsModal 
+        company={viewingCompany} 
+        isOpen={!!viewingCompany} 
+        onClose={() => setViewingCompany(null)} 
+      />
     </div>
   );
 };
