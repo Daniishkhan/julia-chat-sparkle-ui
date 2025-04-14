@@ -5,6 +5,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Eye, Mail, Phone } from "lucide-react";
 import CompanyDetailsModal from './CompanyDetailsModal';
+import EmailModal from './EmailModal';
+import { toast } from "sonner";
 
 interface Subcontractor {
   id: string;
@@ -34,6 +36,7 @@ interface SubcontractorListProps {
 const SubcontractorList: React.FC<SubcontractorListProps> = ({ subcontractors, query }) => {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [viewingCompany, setViewingCompany] = useState<Subcontractor | null>(null);
+  const [emailingCompany, setEmailingCompany] = useState<Subcontractor | null>(null);
 
   const toggleSelection = (id: string) => {
     setSelectedIds(prevSelected => 
@@ -44,12 +47,35 @@ const SubcontractorList: React.FC<SubcontractorListProps> = ({ subcontractors, q
   };
 
   const emailSelected = () => {
-    const selectedCompanies = subcontractors
-      .filter(sub => selectedIds.includes(sub.id))
-      .map(sub => sub.company_name)
-      .join(", ");
+    const selectedCompanies = subcontractors.filter(sub => selectedIds.includes(sub.id));
     
-    alert(`Email would be sent to: ${selectedCompanies}`);
+    if (selectedCompanies.length === 1) {
+      // If only one company is selected, open the email modal for that company
+      setEmailingCompany(selectedCompanies[0]);
+    } else {
+      // For multiple companies, prepare a list of emails
+      const emails = selectedCompanies.map(company => company.email).join(', ');
+      const companyNames = selectedCompanies.map(company => company.company_name).join(', ');
+      
+      // Create a temporary subcontractor object to pass to the email modal
+      const multipleRecipients: Subcontractor = {
+        id: 'multiple',
+        email: emails,
+        company_name: 'Multiple Companies',
+        phone: '',
+        contact: '',
+        location: { borough: '', address: '' },
+        capabilities: [],
+        certifications: [],
+        yearsInBusiness: 0,
+        employeeCount: 0,
+        projectCapacity: '',
+        match_explanation: ''
+      };
+      
+      setEmailingCompany(multipleRecipients);
+      toast.info(`Preparing email to ${selectedCompanies.length} companies`);
+    }
   };
 
   return (
@@ -93,6 +119,7 @@ const SubcontractorList: React.FC<SubcontractorListProps> = ({ subcontractors, q
                 size="icon" 
                 className="h-8 w-8" 
                 title={`Email: ${subcontractor.email}`}
+                onClick={() => setEmailingCompany(subcontractor)}
               >
                 <Mail className="h-4 w-4" />
               </Button>
@@ -124,6 +151,15 @@ const SubcontractorList: React.FC<SubcontractorListProps> = ({ subcontractors, q
         isOpen={!!viewingCompany} 
         onClose={() => setViewingCompany(null)} 
       />
+      
+      {emailingCompany && (
+        <EmailModal
+          recipient={emailingCompany.email}
+          companyName={emailingCompany.company_name}
+          isOpen={!!emailingCompany}
+          onClose={() => setEmailingCompany(null)}
+        />
+      )}
     </div>
   );
 };
