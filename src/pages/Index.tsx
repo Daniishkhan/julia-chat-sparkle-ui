@@ -4,7 +4,7 @@ import ChatInterface from '../components/ChatInterface';
 
 const Index: React.FC = () => {
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-50 to-white p-4">
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-50 to-white p-4 overflow-hidden">
       <ChatInterface />
     </div>
   );

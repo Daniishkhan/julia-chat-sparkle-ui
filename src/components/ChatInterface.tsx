@@ -84,7 +84,7 @@ const ChatInterface: React.FC = () => {
       <Header />
       
       {messages.length === 0 ? (
-        <div className="flex-1 flex flex-col items-center justify-center p-6 bg-gradient-to-b from-purple-50 to-white">
+        <div className="flex-1 flex flex-col items-center justify-center p-6 bg-gradient-to-b from-purple-50 to-white overflow-auto">
           <WelcomeMessage />
           <div className="w-full max-w-xl mx-auto mt-4">
             <ChatInput 
@@ -95,9 +95,9 @@ const ChatInterface: React.FC = () => {
           </div>
         </div>
       ) : (
-        <div className="flex-1 flex flex-col relative">
-          <ScrollArea className="flex-1 p-4 pb-20">
-            <div className="max-w-2xl w-full mx-auto space-y-4 pt-8">
+        <div className="flex-1 flex flex-col h-full">
+          <ScrollArea className="flex-1 overflow-y-auto">
+            <div className="max-w-2xl w-full mx-auto space-y-4 py-8 px-4">
               {messages.map((message) => (
                 <div 
                   key={message.id} 
@@ -113,7 +113,7 @@ const ChatInterface: React.FC = () => {
                     </Avatar>
                   )}
                   <div 
-                    className={`max-w-2xl w-full p-3 rounded-lg ${
+                    className={`max-w-[75%] p-3 rounded-lg ${
                       message.sender === 'user' 
                         ? 'bg-blue-500 text-white rounded-tr-none' 
                         : 'bg-julia-softBlue text-gray-800 rounded-tl-none border border-gray-200'
@@ -146,7 +146,7 @@ const ChatInterface: React.FC = () => {
                       <Bot size={20} />
                     </AvatarFallback>
                   </Avatar>
-                  <div className="max-w-2xl w-full p-3 rounded-lg bg-julia-softGreen text-gray-800 rounded-tl-none border border-gray-200">
+                  <div className="max-w-[75%] p-3 rounded-lg bg-julia-softGreen text-gray-800 rounded-tl-none border border-gray-200">
                     <div className="flex space-x-2">
                       <div className="w-2 h-2 rounded-full bg-gray-400 animate-bounce"></div>
                       <div className="w-2 h-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '0.2s' }}></div>
@@ -161,7 +161,7 @@ const ChatInterface: React.FC = () => {
           
           <div className="sticky bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4">
             <div className="max-w-2xl mx-auto">
-              <ChatInput onSendMessage={handleSendMessage} isLoading={isLoading} />
+              <ChatInput onSendMessage={handleSendMessage} isLoading={isLoading} placeholder="Ask anything about subcontractors..." />
             </div>
           </div>
         </div>

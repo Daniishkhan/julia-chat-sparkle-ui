@@ -1,10 +1,9 @@
 
 import React from 'react';
-import { Settings } from 'lucide-react';
 
 const Header: React.FC = () => {
   return (
-    <header className="flex justify-between items-center py-3 px-6 bg-white shadow-sm rounded-t-lg">
+    <header className="flex justify-center items-center py-3 px-6 bg-white shadow-sm rounded-t-lg">
       <div className="flex items-center">
         <div className="bg-slate-900 h-8 w-8 rounded-full flex items-center justify-center text-white mr-3">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -13,9 +12,6 @@ const Header: React.FC = () => {
         </div>
         <span className="font-bold text-lg text-slate-900">BusinessBot</span>
       </div>
-      <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
-        <Settings size={20} className="text-gray-600" />
-      </button>
     </header>
   );
 };
