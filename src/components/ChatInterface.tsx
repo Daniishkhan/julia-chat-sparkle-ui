@@ -116,7 +116,7 @@ const ChatInterface: React.FC = () => {
                   <div 
                     className={`max-w-2xl w-full p-3 rounded-lg ${
                       message.sender === 'user' 
-                        ? 'bg-julia-primary text-white rounded-tr-none' 
+                        ? 'bg-blue-500 text-white rounded-tr-none' 
                         : 'bg-julia-softBlue text-gray-800 rounded-tl-none border border-gray-200'
                     }`}
                   >
@@ -133,7 +133,7 @@ const ChatInterface: React.FC = () => {
                   </div>
                   {message.sender === 'user' && (
                     <Avatar className="h-10 w-10 bg-avatar-gradient-2 text-white shadow-md">
-                      <AvatarFallback className="bg-julia-blue text-white">
+                      <AvatarFallback className="bg-blue-400 text-white">
                         <User size={20} />
                       </AvatarFallback>
                     </Avatar>
