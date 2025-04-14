@@ -83,26 +83,64 @@ export const findSubcontractors = async (text: string): Promise<SubcontractorRes
       };
     }
 
+    // Log request details
+    console.log('Sending API request to find subcontractors with text:', text);
+    
     // Using the real API endpoint with CORS handling
-    const response = await fetch('https://cors-anywhere.herokuapp.com/http://24.144.88.94/find-subcontractors', {
+    const corsProxyUrl = 'https://cors-anywhere.herokuapp.com/';
+    const apiUrl = 'http://24.144.88.94/find-subcontractors';
+    const fullUrl = corsProxyUrl + apiUrl;
+    
+    console.log('Using CORS proxy URL:', fullUrl);
+    
+    const requestBody = JSON.stringify({
+      text,
+      max_tokens: 150
+    });
+    
+    console.log('Request body:', requestBody);
+    
+    const response = await fetch(fullUrl, {
       method: 'POST',
       headers: {
         'accept': 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        text,
-        max_tokens: 150
-      }),
+      body: requestBody,
     });
 
+    console.log('API response status:', response.status);
+    console.log('API response status text:', response.statusText);
+    
+    // Log response headers for debugging
+    const headers: Record<string, string> = {};
+    response.headers.forEach((value, key) => {
+      headers[key] = value;
+    });
+    console.log('Response headers:', headers);
+
     if (!response.ok) {
+      // Get the response text to see if there's an error message
+      const errorText = await response.text();
+      console.error(`API response error text: ${errorText}`);
       throw new Error(`API request failed with status: ${response.status}`);
     }
 
-    return await response.json();
+    const responseData = await response.json();
+    console.log('API response data:', responseData);
+    return responseData;
   } catch (error) {
     console.error('Error fetching subcontractors:', error);
+    
+    // If error is a Response object, try to get more details
+    if (error instanceof Response) {
+      try {
+        const errorBody = await error.text();
+        console.error('Error response body:', errorBody);
+      } catch (e) {
+        console.error('Could not read error response body:', e);
+      }
+    }
     
     // Return a fallback response for development/testing
     // This ensures the UI can still function even if the API is down

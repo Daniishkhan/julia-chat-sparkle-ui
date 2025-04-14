@@ -33,8 +33,12 @@ const ChatInterface: React.FC = () => {
       setIsLoading(true);
       
       try {
+        console.log('Initiating API request for text:', text);
+        
         // Make API request
         const response = await findSubcontractors(text);
+        
+        console.log('Received API response:', response);
         
         // Create bot response with company names
         let botResponseText = "";
@@ -44,6 +48,10 @@ const ChatInterface: React.FC = () => {
           response.matches.forEach((match, index) => {
             botResponseText += `${index + 1}. ${match.company_name}\n   Location: ${match.location.borough}\n   Capabilities: ${match.capabilities.join(", ")}\n\n`;
           });
+          
+          // Add info about the query type
+          botResponseText += `Query type: ${response.query_type}\n`;
+          botResponseText += `Match quality: ${response.match_quality}`;
         } else {
           botResponseText = "No matching companies found. Please try a different search.";
         }
@@ -57,18 +65,19 @@ const ChatInterface: React.FC = () => {
         
         setMessages(prevMessages => [...prevMessages, botMessage]);
       } catch (error) {
-        // Handle error
+        // Enhanced error handling with more information
         console.error('Failed to fetch data:', error);
-        toast.error("Failed to fetch subcontractors. Using fallback data.");
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        toast.error(`Failed to fetch subcontractors: ${errorMessage}`);
         
-        // Display a more helpful error message that includes fallback data
-        const errorMessage: Message = {
+        // Display a more helpful error message that includes fallback data and error details
+        const errorResponseMessage: Message = {
           id: Date.now() + 1,
-          text: "I had trouble connecting to the server, but here's what I found:\n\nMetro Construction Solutions (Fallback Data)\nLocation: Manhattan\nCapabilities: General Construction, Concrete Work, Steel Fabrication",
+          text: `I had trouble connecting to the server. Error: ${errorMessage}\n\nHere's what I found (fallback data):\n\nMetro Construction Solutions (Fallback Data)\nLocation: Manhattan\nCapabilities: General Construction, Concrete Work, Steel Fabrication`,
           sender: 'bot',
           timestamp: new Date(),
         };
-        setMessages(prevMessages => [...prevMessages, errorMessage]);
+        setMessages(prevMessages => [...prevMessages, errorResponseMessage]);
       } finally {
         setIsLoading(false);
       }
