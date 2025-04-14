@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Header from './Header';
 import WelcomeMessage from './WelcomeMessage';
@@ -26,7 +25,6 @@ const ChatInterface: React.FC = () => {
 
   const handleSendMessage = async (text: string) => {
     if (text.trim()) {
-      // Add user message
       const userMessage: Message = {
         id: Date.now(),
         text,
@@ -40,12 +38,10 @@ const ChatInterface: React.FC = () => {
       try {
         console.log('Initiating API request for text:', text);
         
-        // Make API request
         const response = await findSubcontractors(text);
         
         console.log('Received API response:', response);
         
-        // Create bot response with companies displayed in a list
         const botMessage: Message = {
           id: Date.now() + 1,
           text: '',
@@ -57,12 +53,10 @@ const ChatInterface: React.FC = () => {
         
         setMessages(prevMessages => [...prevMessages, botMessage]);
       } catch (error) {
-        // Enhanced error handling with more information
         console.error('Failed to fetch data:', error);
         const errorMessage = error instanceof Error ? error.message : 'Unknown error';
         toast.error(`Failed to fetch subcontractors: ${errorMessage}`);
         
-        // Display a helpful error message
         const errorResponseMessage: Message = {
           id: Date.now() + 1,
           text: `I had trouble connecting to the server. Error: ${errorMessage}`,
@@ -93,24 +87,30 @@ const ChatInterface: React.FC = () => {
         ) : (
           <div className="space-y-4">
             {messages.map((message) => (
-              <div key={message.id} className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'} items-start gap-2`}>
+              <div 
+                key={message.id} 
+                className={`flex ${
+                  message.sender === 'user' ? 'justify-end' : 'justify-start'
+                } items-start gap-2`}
+              >
                 {message.sender === 'bot' && (
-                  <Avatar className="h-8 w-8 bg-julia-primary text-white">
-                    <AvatarFallback>
-                      <Bot size={16} />
+                  <Avatar className="h-10 w-10 bg-avatar-gradient-1 text-white shadow-md">
+                    <AvatarFallback className="bg-julia-accent text-white">
+                      <Bot size={20} />
                     </AvatarFallback>
                   </Avatar>
                 )}
-                <div className={`max-w-2xl w-full p-3 rounded-lg ${
-                  message.sender === 'user' 
-                    ? 'bg-julia-primary text-white rounded-tr-none' 
-                    : 'bg-white text-gray-800 rounded-tl-none border border-gray-200'
-                }`}>
+                <div 
+                  className={`max-w-2xl w-full p-3 rounded-lg ${
+                    message.sender === 'user' 
+                      ? 'bg-julia-primary text-white rounded-tr-none' 
+                      : 'bg-julia-softBlue text-gray-800 rounded-tl-none border border-gray-200'
+                  }`}
+                >
                   {message.text && (
                     <pre className="whitespace-pre-wrap font-sans text-sm">{message.text}</pre>
                   )}
                   
-                  {/* Render subcontractor list if available */}
                   {message.sender === 'bot' && message.subcontractors && message.subcontractors.length > 0 && (
                     <SubcontractorList 
                       subcontractors={message.subcontractors} 
@@ -119,9 +119,9 @@ const ChatInterface: React.FC = () => {
                   )}
                 </div>
                 {message.sender === 'user' && (
-                  <Avatar className="h-8 w-8 bg-julia-blue text-white">
-                    <AvatarFallback>
-                      <User size={16} />
+                  <Avatar className="h-10 w-10 bg-avatar-gradient-2 text-white shadow-md">
+                    <AvatarFallback className="bg-julia-blue text-white">
+                      <User size={20} />
                     </AvatarFallback>
                   </Avatar>
                 )}
@@ -129,12 +129,12 @@ const ChatInterface: React.FC = () => {
             ))}
             {isLoading && (
               <div className="flex justify-start items-start gap-2">
-                <Avatar className="h-8 w-8 bg-julia-primary text-white">
-                  <AvatarFallback>
-                    <Bot size={16} />
+                <Avatar className="h-10 w-10 bg-avatar-gradient-3 text-white shadow-md">
+                  <AvatarFallback className="bg-julia-accent text-white">
+                    <Bot size={20} />
                   </AvatarFallback>
                 </Avatar>
-                <div className="max-w-2xl w-full p-3 rounded-lg bg-white text-gray-800 rounded-tl-none border border-gray-200">
+                <div className="max-w-2xl w-full p-3 rounded-lg bg-julia-softGreen text-gray-800 rounded-tl-none border border-gray-200">
                   <div className="flex space-x-2">
                     <div className="w-2 h-2 rounded-full bg-gray-400 animate-bounce"></div>
                     <div className="w-2 h-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '0.2s' }}></div>

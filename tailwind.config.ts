@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -67,7 +66,11 @@ export default {
 					bg: '#F8F9FA',
 					primary: '#1A1F2C',
 					buttonBg: '#F1F2F4',
-					blue: '#3B82F6'
+					blue: '#3B82F6',
+					softPurple: '#E5DEFF',
+					softGreen: '#E6F3E6',
+					softBlue: '#D3E4FD',
+					accent: '#7E69AB'
 				}
 			},
 			borderRadius: {
@@ -118,6 +121,11 @@ export default {
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'fade-in': 'fade-in 0.3s ease-out',
 				'scale-in': 'scale-in 0.2s ease-out'
+			},
+			backgroundImage: {
+				'avatar-gradient-1': 'linear-gradient(135deg, #6A11CB 0%, #2575FC 100%)',
+				'avatar-gradient-2': 'linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%)',
+				'avatar-gradient-3': 'linear-gradient(135deg, #FFC837 0%, #FF8008 100%)'
 			}
 		}
 	},
