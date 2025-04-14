@@ -1,7 +1,9 @@
+
 import React, { useState } from 'react';
 import Header from './Header';
 import WelcomeMessage from './WelcomeMessage';
 import ChatInput from './ChatInput';
+import ChatBubble from './ChatBubble';
 
 interface Message {
   id: number;
@@ -12,6 +14,7 @@ interface Message {
 
 const ChatInterface: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
+  const [isExpanded, setIsExpanded] = useState(true);
 
   const handleSendMessage = (text: string) => {
     if (text.trim()) {
@@ -27,6 +30,14 @@ const ChatInterface: React.FC = () => {
       // For now, we'll keep it simple since we're just showing the welcome screen
     }
   };
+
+  const toggleChatExpansion = () => {
+    setIsExpanded(!isExpanded);
+  };
+
+  if (!isExpanded) {
+    return <ChatBubble onClick={toggleChatExpansion} />;
+  }
 
   return (
     <div className="flex flex-col h-screen bg-julia-bg">
@@ -51,7 +62,18 @@ const ChatInterface: React.FC = () => {
           </div>
         )}
       </div>
-      <ChatInput onSendMessage={handleSendMessage} />
+      <div className="sticky bottom-0">
+        <ChatInput onSendMessage={handleSendMessage} />
+        <button 
+          onClick={toggleChatExpansion}
+          className="absolute bottom-20 right-4 p-2 rounded-full bg-julia-primary text-white shadow-lg"
+          aria-label="Minimize chat"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+        </button>
+      </div>
     </div>
   );
 };
