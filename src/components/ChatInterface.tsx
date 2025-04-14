@@ -1,13 +1,12 @@
+
 import React, { useState } from 'react';
 import Header from './Header';
-import WelcomeMessage from './WelcomeMessage';
 import ChatInput from './ChatInput';
-import ChatBubble from './ChatBubble';
-import SubcontractorList from './SubcontractorList';
 import { findSubcontractors } from '../services/api';
 import { toast } from '../components/ui/sonner';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { User, Bot } from 'lucide-react';
+import SubcontractorList from './SubcontractorList';
 
 interface Message {
   id: number;
@@ -20,7 +19,6 @@ interface Message {
 
 const ChatInterface: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
-  const [isExpanded, setIsExpanded] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSendMessage = async (text: string) => {
@@ -70,22 +68,23 @@ const ChatInterface: React.FC = () => {
     }
   };
 
-  const toggleChatExpansion = () => {
-    setIsExpanded(!isExpanded);
-  };
-
-  if (!isExpanded) {
-    return <ChatBubble onClick={toggleChatExpansion} />;
-  }
-
   return (
-    <div className="flex flex-col h-screen bg-julia-bg">
+    <div className="flex flex-col h-screen bg-gray-50">
       <Header />
-      <div className="flex-1 overflow-auto p-4">
+      <div className="flex-1 flex flex-col items-center justify-center overflow-auto p-4">
         {messages.length === 0 ? (
-          <WelcomeMessage />
+          <div className="max-w-xl w-full text-center">
+            <h1 className="text-3xl font-semibold text-gray-800 mb-6">What can I help with?</h1>
+            <div className="bg-white rounded-2xl shadow-lg p-2 mx-auto">
+              <ChatInput 
+                onSendMessage={handleSendMessage} 
+                isLoading={isLoading} 
+                placeholder="Ask anything about subcontractors..." 
+              />
+            </div>
+          </div>
         ) : (
-          <div className="space-y-4">
+          <div className="max-w-2xl w-full space-y-4 pt-8 pb-20">
             {messages.map((message) => (
               <div 
                 key={message.id} 
@@ -146,18 +145,14 @@ const ChatInterface: React.FC = () => {
           </div>
         )}
       </div>
-      <div className="sticky bottom-0">
-        <ChatInput onSendMessage={handleSendMessage} isLoading={isLoading} />
-        <button 
-          onClick={toggleChatExpansion}
-          className="absolute bottom-20 right-4 p-2 rounded-full bg-julia-primary text-white shadow-lg"
-          aria-label="Minimize chat"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-          </svg>
-        </button>
-      </div>
+      
+      {messages.length > 0 && (
+        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4">
+          <div className="max-w-2xl mx-auto">
+            <ChatInput onSendMessage={handleSendMessage} isLoading={isLoading} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

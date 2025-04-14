@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Bot, Building2 } from 'lucide-react';
+import { Bot } from 'lucide-react';
 
 const WelcomeMessage: React.FC = () => {
   return (
@@ -12,10 +12,6 @@ const WelcomeMessage: React.FC = () => {
       <p className="text-gray-600 mb-8 px-4 text-center max-w-md">
         Your AI assistant for discovering and connecting with diverse, qualified subcontractors in your area.
       </p>
-      <button className="flex items-center px-6 py-3 rounded-lg bg-julia-buttonBg text-julia-primary hover:bg-gray-200 transition-colors">
-        <Building2 size={20} className="mr-2" />
-        <span>Find diverse subcontractors</span>
-      </button>
     </div>
   );
 };

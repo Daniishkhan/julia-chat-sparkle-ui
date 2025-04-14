@@ -1,13 +1,18 @@
 
 import React, { useState } from 'react';
-import { Mic, Send } from 'lucide-react';
+import { Send } from 'lucide-react';
 
 interface ChatInputProps {
   onSendMessage: (message: string) => void;
   isLoading?: boolean;
+  placeholder?: string;
 }
 
-const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, isLoading = false }) => {
+const ChatInput: React.FC<ChatInputProps> = ({ 
+  onSendMessage, 
+  isLoading = false, 
+  placeholder = "Type your message..." 
+}) => {
   const [message, setMessage] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -19,22 +24,19 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, isLoading = false 
   };
 
   return (
-    <form onSubmit={handleSubmit} className="border-t border-gray-200 p-4 bg-white">
+    <form onSubmit={handleSubmit} className="w-full">
       <div className="flex items-center bg-white rounded-lg border border-gray-200">
         <input
           type="text"
-          placeholder="Type your message..."
+          placeholder={placeholder}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           disabled={isLoading}
-          className="flex-1 px-4 py-3 bg-transparent outline-none text-gray-800 disabled:text-gray-400"
+          className="flex-1 px-4 py-3 bg-transparent outline-none text-gray-800 disabled:text-gray-400 rounded-lg"
         />
-        <button type="button" className="p-3 text-gray-500 hover:text-gray-700" disabled={isLoading}>
-          <Mic size={20} />
-        </button>
         <button 
           type="submit" 
-          className={`p-3 ${isLoading ? 'bg-gray-300' : 'bg-julia-primary'} text-white rounded-lg mx-1 my-1 transition-colors`}
+          className={`p-3 ${isLoading || !message.trim() ? 'bg-gray-300' : 'bg-black'} text-white rounded-lg m-1 transition-colors`}
           disabled={isLoading || !message.trim()}
         >
           <Send size={18} />
