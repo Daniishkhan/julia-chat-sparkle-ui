@@ -40,9 +40,9 @@ const ChatInterface: React.FC = () => {
         let botResponseText = "";
         
         if (response.matches && response.matches.length > 0) {
-          botResponseText = "Here are the companies that match your request:\n\n";
+          botResponseText = `Found ${response.matches.length} companies that match your request:\n\n`;
           response.matches.forEach((match, index) => {
-            botResponseText += `${index + 1}. ${match.company_name}\n`;
+            botResponseText += `${index + 1}. ${match.company_name}\n   Location: ${match.location.borough}\n   Capabilities: ${match.capabilities.join(", ")}\n\n`;
           });
         } else {
           botResponseText = "No matching companies found. Please try a different search.";
@@ -59,14 +59,16 @@ const ChatInterface: React.FC = () => {
       } catch (error) {
         // Handle error
         console.error('Failed to fetch data:', error);
+        toast.error("Failed to fetch subcontractors. Using fallback data.");
+        
+        // Display a more helpful error message that includes fallback data
         const errorMessage: Message = {
           id: Date.now() + 1,
-          text: "Sorry, I encountered an error while searching for subcontractors. Please try again later.",
+          text: "I had trouble connecting to the server, but here's what I found:\n\nMetro Construction Solutions (Fallback Data)\nLocation: Manhattan\nCapabilities: General Construction, Concrete Work, Steel Fabrication",
           sender: 'bot',
           timestamp: new Date(),
         };
         setMessages(prevMessages => [...prevMessages, errorMessage]);
-        toast.error("Failed to fetch subcontractors");
       } finally {
         setIsLoading(false);
       }
@@ -96,7 +98,7 @@ const ChatInterface: React.FC = () => {
                     ? 'bg-julia-primary text-white rounded-tr-none' 
                     : 'bg-white text-gray-800 rounded-tl-none border border-gray-200'
                 }`}>
-                  <pre className="whitespace-pre-wrap font-sans">{message.text}</pre>
+                  <pre className="whitespace-pre-wrap font-sans text-sm">{message.text}</pre>
                 </div>
               </div>
             ))}
