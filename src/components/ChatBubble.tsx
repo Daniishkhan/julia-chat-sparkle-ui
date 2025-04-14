@@ -8,7 +8,7 @@ interface ChatBubbleProps {
 
 const ChatBubble: React.FC<ChatBubbleProps> = ({ onClick }) => {
   return (
-    <div className="fixed bottom-6 right-6 z-50">
+    <div className="fixed bottom-6 left-6 z-50">
       {/* Welcome message card when collapsed */}
       <div className="mb-4 bg-white rounded-lg shadow-lg p-6 max-w-xs animate-fade-in">
         <div className="flex items-center mb-4">
