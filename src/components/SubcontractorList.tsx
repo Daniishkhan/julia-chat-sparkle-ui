@@ -3,9 +3,10 @@ import React, { useState } from 'react';
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
-import { Eye, Mail, Phone } from "lucide-react";
+import { Eye, Mail, PhoneCall } from "lucide-react";
 import CompanyDetailsModal from './CompanyDetailsModal';
 import EmailModal from './EmailModal';
+import CallModal from './CallModal';
 import { toast } from "sonner";
 
 interface Subcontractor {
@@ -37,6 +38,7 @@ const SubcontractorList: React.FC<SubcontractorListProps> = ({ subcontractors, q
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [viewingCompany, setViewingCompany] = useState<Subcontractor | null>(null);
   const [emailingCompany, setEmailingCompany] = useState<Subcontractor | null>(null);
+  const [callingCompany, setCallingCompany] = useState<Subcontractor | null>(null);
 
   const toggleSelection = (id: string) => {
     setSelectedIds(prevSelected => 
@@ -128,8 +130,9 @@ const SubcontractorList: React.FC<SubcontractorListProps> = ({ subcontractors, q
                 size="icon" 
                 className="h-8 w-8" 
                 title={`Call: ${subcontractor.phone}`}
+                onClick={() => setCallingCompany(subcontractor)}
               >
-                <Phone className="h-4 w-4" />
+                <PhoneCall className="h-4 w-4" />
               </Button>
             </div>
           </div>
@@ -158,6 +161,15 @@ const SubcontractorList: React.FC<SubcontractorListProps> = ({ subcontractors, q
           companyName={emailingCompany.company_name}
           isOpen={!!emailingCompany}
           onClose={() => setEmailingCompany(null)}
+        />
+      )}
+      
+      {callingCompany && (
+        <CallModal
+          phone={callingCompany.phone}
+          companyName={callingCompany.company_name}
+          isOpen={!!callingCompany}
+          onClose={() => setCallingCompany(null)}
         />
       )}
     </div>
