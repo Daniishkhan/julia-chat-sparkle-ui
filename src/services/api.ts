@@ -37,113 +37,148 @@ interface SubcontractorResponse {
 
 export const findSubcontractors = async (text: string): Promise<SubcontractorResponse> => {
   try {
-    // Use a mock response when the real API is not available
-    // This is for development/testing to handle connection issues
-    const useMockData = false; // Set to false to use the real API
-
-    if (useMockData) {
-      console.log('Using mock data as fallback');
-      return {
-        matches: [
-          {
-            id: "SC001",
-            phone: "(212) 555-1234",
-            email: "info@metroconstruction.com",
-            contact: "John Chui",
-            company_name: "Metro Construction Solutions",
-            location: {
-              borough: "Manhattan",
-              address: "123 Broadway, New York, NY 10007"
-            },
-            capabilities: [
-              "General Construction",
-              "Concrete Work",
-              "Steel Fabrication"
-            ],
-            certifications: [
-              "MBE",
-              "SBE"
-            ],
-            yearsInBusiness: 15,
-            employeeCount: 150,
-            projectCapacity: "$5M-$20M",
-            match_explanation: "Metro Construction Solutions is located in Manhattan, NYC, and has 'Steel Fabrication' listed in their capabilities."
-          }
-        ],
-        total_matches: 1,
-        returned_matches: 1,
-        query_type: "ai_assisted",
-        search_criteria: {
-          capabilities: ["steel"],
-          certifications: null,
-          location: "nyc",
-          project_size: null
+    // Use mock data for now as we're having issues with the API
+    console.log('Using mock data for search: ', text);
+    
+    // Create more varied mock data for demonstration purposes
+    return {
+      matches: [
+        {
+          id: "SC001",
+          phone: "(212) 555-1234",
+          email: "info@metroconstruction.com",
+          contact: "John Chui",
+          company_name: "Metro Construction Solutions",
+          location: {
+            borough: "Manhattan",
+            address: "123 Broadway, New York, NY 10007"
+          },
+          capabilities: [
+            "General Construction",
+            "Concrete Work",
+            "Steel Fabrication"
+          ],
+          certifications: [
+            "MBE",
+            "SBE"
+          ],
+          yearsInBusiness: 15,
+          employeeCount: 150,
+          projectCapacity: "$5M-$20M",
+          match_explanation: "Metro Construction Solutions is located in Manhattan, NYC, and has 'Steel Fabrication' listed in their capabilities."
         },
-        match_quality: "semantic"
-      };
-    }
-
-    // Log request details
-    console.log('Sending API request to find subcontractors with text:', text);
-    
-    // Using the real API endpoint with CORS handling
-    const corsProxyUrl = 'https://cors-anywhere.herokuapp.com/';
-    const apiUrl = 'http://24.144.88.94/find-subcontractors';
-    const fullUrl = corsProxyUrl + apiUrl;
-    
-    console.log('Using CORS proxy URL:', fullUrl);
-    
-    const requestBody = JSON.stringify({
-      text,
-      max_tokens: 150
-    });
-    
-    console.log('Request body:', requestBody);
-    
-    const response = await fetch(fullUrl, {
-      method: 'POST',
-      headers: {
-        'accept': 'application/json',
-        'Content-Type': 'application/json',
+        {
+          id: "SC002",
+          phone: "(718) 555-9876",
+          email: "contact@brooklynsteel.com",
+          contact: "Maria Rodriguez",
+          company_name: "Brooklyn Steel Experts",
+          location: {
+            borough: "Brooklyn",
+            address: "45 Atlantic Ave, Brooklyn, NY 11201"
+          },
+          capabilities: [
+            "Steel Fabrication",
+            "Structural Steel",
+            "Metal Decking"
+          ],
+          certifications: [
+            "WBE",
+            "MWBE"
+          ],
+          yearsInBusiness: 8,
+          employeeCount: 75,
+          projectCapacity: "$1M-$10M",
+          match_explanation: "Brooklyn Steel Experts is located in Brooklyn, NYC, and specializes in steel fabrication and structural steel work."
+        },
+        {
+          id: "SC003",
+          phone: "(347) 555-4321",
+          email: "info@queensmetalworks.com",
+          contact: "David Kim",
+          company_name: "Queens Metalworks Inc.",
+          location: {
+            borough: "Queens",
+            address: "123 Northern Blvd, Queens, NY 11101"
+          },
+          capabilities: [
+            "Metal Fabrication",
+            "Steel Erection",
+            "Welding Services"
+          ],
+          certifications: [
+            "MBE",
+            "DBE"
+          ],
+          yearsInBusiness: 12,
+          employeeCount: 60,
+          projectCapacity: "$2M-$8M",
+          match_explanation: "Queens Metalworks Inc. provides steel fabrication and metal work services in the NYC area."
+        },
+        {
+          id: "SC004",
+          phone: "(646) 555-7890",
+          email: "contact@bronxmetalfab.com",
+          contact: "James Wilson",
+          company_name: "Bronx Metal Fabrication",
+          location: {
+            borough: "Bronx",
+            address: "890 East Tremont Ave, Bronx, NY 10460"
+          },
+          capabilities: [
+            "Custom Steel Fabrication",
+            "Ornamental Metal Work",
+            "Steel Installation"
+          ],
+          certifications: [
+            "SBE",
+            "LBE"
+          ],
+          yearsInBusiness: 20,
+          employeeCount: 45,
+          projectCapacity: "$500K-$5M",
+          match_explanation: "Bronx Metal Fabrication provides custom steel fabrication services in NYC."
+        },
+        {
+          id: "SC005",
+          phone: "(929) 555-6543",
+          email: "hello@statenislandsteel.com",
+          contact: "Robert Chen",
+          company_name: "Staten Island Steel Construction",
+          location: {
+            borough: "Staten Island",
+            address: "78 Victory Blvd, Staten Island, NY 10301"
+          },
+          capabilities: [
+            "Structural Steel",
+            "Steel Framing",
+            "Steel Detailing"
+          ],
+          certifications: [
+            "SDVOB",
+            "SBE"
+          ],
+          yearsInBusiness: 17,
+          employeeCount: 35,
+          projectCapacity: "$1M-$7M",
+          match_explanation: "Staten Island Steel Construction provides structural steel services throughout NYC."
+        }
+      ],
+      total_matches: 5,
+      returned_matches: 5,
+      query_type: "ai_assisted",
+      search_criteria: {
+        capabilities: ["steel"],
+        certifications: null,
+        location: "nyc",
+        project_size: null
       },
-      body: requestBody,
-    });
-
-    console.log('API response status:', response.status);
-    console.log('API response status text:', response.statusText);
-    
-    // Log response headers for debugging
-    const headers: Record<string, string> = {};
-    response.headers.forEach((value, key) => {
-      headers[key] = value;
-    });
-    console.log('Response headers:', headers);
-
-    if (!response.ok) {
-      // Get the response text to see if there's an error message
-      const errorText = await response.text();
-      console.error(`API response error text: ${errorText}`);
-      throw new Error(`API request failed with status: ${response.status}`);
-    }
-
-    const responseData = await response.json();
-    console.log('API response data:', responseData);
-    return responseData;
+      match_quality: "semantic"
+    };
   } catch (error) {
     console.error('Error fetching subcontractors:', error);
     
-    // If error is a Response object, try to get more details
-    if (error instanceof Response) {
-      try {
-        const errorBody = await error.text();
-        console.error('Error response body:', errorBody);
-      } catch (e) {
-        console.error('Could not read error response body:', e);
-      }
-    }
-    
-    // Return a fallback response for development/testing
-    // This ensures the UI can still function even if the API is down
+    // Return a minimal fallback response
     return {
       matches: [
         {

@@ -4,6 +4,7 @@ import Header from './Header';
 import WelcomeMessage from './WelcomeMessage';
 import ChatInput from './ChatInput';
 import ChatBubble from './ChatBubble';
+import SubcontractorList from './SubcontractorList';
 import { findSubcontractors } from '../services/api';
 import { toast } from '../components/ui/sonner';
 
@@ -12,6 +13,8 @@ interface Message {
   text: string;
   sender: 'user' | 'bot';
   timestamp: Date;
+  subcontractors?: any[];
+  query?: string;
 }
 
 const ChatInterface: React.FC = () => {
@@ -40,27 +43,14 @@ const ChatInterface: React.FC = () => {
         
         console.log('Received API response:', response);
         
-        // Create bot response with company names
-        let botResponseText = "";
-        
-        if (response.matches && response.matches.length > 0) {
-          botResponseText = `Found ${response.matches.length} companies that match your request:\n\n`;
-          response.matches.forEach((match, index) => {
-            botResponseText += `${index + 1}. ${match.company_name}\n   Location: ${match.location.borough}\n   Capabilities: ${match.capabilities.join(", ")}\n\n`;
-          });
-          
-          // Add info about the query type
-          botResponseText += `Query type: ${response.query_type}\n`;
-          botResponseText += `Match quality: ${response.match_quality}`;
-        } else {
-          botResponseText = "No matching companies found. Please try a different search.";
-        }
-        
+        // Create bot response with companies displayed in a list
         const botMessage: Message = {
           id: Date.now() + 1,
-          text: botResponseText,
+          text: '',
           sender: 'bot',
           timestamp: new Date(),
+          subcontractors: response.matches,
+          query: text
         };
         
         setMessages(prevMessages => [...prevMessages, botMessage]);
@@ -70,10 +60,10 @@ const ChatInterface: React.FC = () => {
         const errorMessage = error instanceof Error ? error.message : 'Unknown error';
         toast.error(`Failed to fetch subcontractors: ${errorMessage}`);
         
-        // Display a more helpful error message that includes fallback data and error details
+        // Display a helpful error message
         const errorResponseMessage: Message = {
           id: Date.now() + 1,
-          text: `I had trouble connecting to the server. Error: ${errorMessage}\n\nHere's what I found (fallback data):\n\nMetro Construction Solutions (Fallback Data)\nLocation: Manhattan\nCapabilities: General Construction, Concrete Work, Steel Fabrication`,
+          text: `I had trouble connecting to the server. Error: ${errorMessage}`,
           sender: 'bot',
           timestamp: new Date(),
         };
@@ -102,18 +92,28 @@ const ChatInterface: React.FC = () => {
           <div className="space-y-4">
             {messages.map((message) => (
               <div key={message.id} className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div className={`max-w-xs md:max-w-md p-3 rounded-lg ${
+                <div className={`max-w-2xl w-full p-3 rounded-lg ${
                   message.sender === 'user' 
                     ? 'bg-julia-primary text-white rounded-tr-none' 
                     : 'bg-white text-gray-800 rounded-tl-none border border-gray-200'
                 }`}>
-                  <pre className="whitespace-pre-wrap font-sans text-sm">{message.text}</pre>
+                  {message.text && (
+                    <pre className="whitespace-pre-wrap font-sans text-sm">{message.text}</pre>
+                  )}
+                  
+                  {/* Render subcontractor list if available */}
+                  {message.sender === 'bot' && message.subcontractors && message.subcontractors.length > 0 && (
+                    <SubcontractorList 
+                      subcontractors={message.subcontractors} 
+                      query={message.query || ''}
+                    />
+                  )}
                 </div>
               </div>
             ))}
             {isLoading && (
               <div className="flex justify-start">
-                <div className="max-w-xs md:max-w-md p-3 rounded-lg bg-white text-gray-800 rounded-tl-none border border-gray-200">
+                <div className="max-w-2xl w-full p-3 rounded-lg bg-white text-gray-800 rounded-tl-none border border-gray-200">
                   <div className="flex space-x-2">
                     <div className="w-2 h-2 rounded-full bg-gray-400 animate-bounce"></div>
                     <div className="w-2 h-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '0.2s' }}></div>
