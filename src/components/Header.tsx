@@ -3,7 +3,7 @@ import React from 'react';
 
 const Header: React.FC = () => {
   return (
-    <header className="flex justify-center items-center py-3 px-6 bg-white shadow-sm rounded-t-lg">
+    <header className="flex justify-center items-center py-4 px-6 bg-white shadow-sm">
       <div className="flex items-center">
         <div className="bg-slate-900 h-8 w-8 rounded-full flex items-center justify-center text-white mr-3">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

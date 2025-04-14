@@ -32,7 +32,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           disabled={isLoading}
-          className="flex-1 px-4 py-3 bg-transparent outline-none text-gray-800 disabled:text-gray-400 rounded-l-full"
+          className="flex-1 px-6 py-4 bg-transparent outline-none text-gray-800 disabled:text-gray-400 rounded-l-full text-base"
         />
         <button 
           type="submit" 

@@ -80,13 +80,13 @@ const ChatInterface: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-gray-50 max-w-5xl mx-auto rounded-lg shadow-sm overflow-hidden">
+    <div className="flex flex-col w-full h-full bg-white rounded-lg overflow-hidden">
       <Header />
       
       {messages.length === 0 ? (
-        <div className="flex-1 flex flex-col items-center justify-center p-6 bg-gradient-to-b from-purple-50 to-white overflow-auto">
+        <div className="flex-1 flex flex-col items-center justify-center bg-gradient-to-b from-purple-50 to-white">
           <WelcomeMessage />
-          <div className="w-full max-w-xl mx-auto mt-4">
+          <div className="w-full max-w-xl mx-auto mt-8 px-4">
             <ChatInput 
               onSendMessage={handleSendMessage} 
               isLoading={isLoading} 
@@ -96,8 +96,8 @@ const ChatInterface: React.FC = () => {
         </div>
       ) : (
         <div className="flex-1 flex flex-col h-full">
-          <ScrollArea className="flex-1 overflow-y-auto">
-            <div className="max-w-2xl w-full mx-auto space-y-4 py-8 px-4">
+          <ScrollArea className="flex-1">
+            <div className="max-w-3xl w-full mx-auto space-y-4 py-8 px-4">
               {messages.map((message) => (
                 <div 
                   key={message.id} 
@@ -160,7 +160,7 @@ const ChatInterface: React.FC = () => {
           </ScrollArea>
           
           <div className="sticky bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4">
-            <div className="max-w-2xl mx-auto">
+            <div className="max-w-3xl mx-auto">
               <ChatInput onSendMessage={handleSendMessage} isLoading={isLoading} placeholder="Ask anything about subcontractors..." />
             </div>
           </div>
