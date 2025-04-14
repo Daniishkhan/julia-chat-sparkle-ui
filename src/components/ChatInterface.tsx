@@ -7,6 +7,8 @@ import ChatBubble from './ChatBubble';
 import SubcontractorList from './SubcontractorList';
 import { findSubcontractors } from '../services/api';
 import { toast } from '../components/ui/sonner';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import { User, Bot } from 'lucide-react';
 
 interface Message {
   id: number;
@@ -91,7 +93,14 @@ const ChatInterface: React.FC = () => {
         ) : (
           <div className="space-y-4">
             {messages.map((message) => (
-              <div key={message.id} className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
+              <div key={message.id} className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'} items-start gap-2`}>
+                {message.sender === 'bot' && (
+                  <Avatar className="h-8 w-8 bg-julia-primary text-white">
+                    <AvatarFallback>
+                      <Bot size={16} />
+                    </AvatarFallback>
+                  </Avatar>
+                )}
                 <div className={`max-w-2xl w-full p-3 rounded-lg ${
                   message.sender === 'user' 
                     ? 'bg-julia-primary text-white rounded-tr-none' 
@@ -109,10 +118,22 @@ const ChatInterface: React.FC = () => {
                     />
                   )}
                 </div>
+                {message.sender === 'user' && (
+                  <Avatar className="h-8 w-8 bg-julia-blue text-white">
+                    <AvatarFallback>
+                      <User size={16} />
+                    </AvatarFallback>
+                  </Avatar>
+                )}
               </div>
             ))}
             {isLoading && (
-              <div className="flex justify-start">
+              <div className="flex justify-start items-start gap-2">
+                <Avatar className="h-8 w-8 bg-julia-primary text-white">
+                  <AvatarFallback>
+                    <Bot size={16} />
+                  </AvatarFallback>
+                </Avatar>
                 <div className="max-w-2xl w-full p-3 rounded-lg bg-white text-gray-800 rounded-tl-none border border-gray-200">
                   <div className="flex space-x-2">
                     <div className="w-2 h-2 rounded-full bg-gray-400 animate-bounce"></div>
