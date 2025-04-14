@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,6 +62,11 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				julia: {
+					bg: '#F8F9FA',
+					primary: '#1A1F2C',
+					buttonBg: '#F1F2F4'
 				}
 			},
 			borderRadius: {
