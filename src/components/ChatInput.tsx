@@ -25,18 +25,18 @@ const ChatInput: React.FC<ChatInputProps> = ({
 
   return (
     <form onSubmit={handleSubmit} className="w-full">
-      <div className="flex items-center bg-white rounded-lg border border-gray-200">
+      <div className="flex items-center bg-white rounded-full border border-gray-200 shadow-sm">
         <input
           type="text"
           placeholder={placeholder}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           disabled={isLoading}
-          className="flex-1 px-4 py-3 bg-transparent outline-none text-gray-800 disabled:text-gray-400 rounded-lg"
+          className="flex-1 px-4 py-3 bg-transparent outline-none text-gray-800 disabled:text-gray-400 rounded-l-full"
         />
         <button 
           type="submit" 
-          className={`p-3 ${isLoading || !message.trim() ? 'bg-gray-300' : 'bg-black'} text-white rounded-lg m-1 transition-colors`}
+          className={`p-3 rounded-full m-1 ${isLoading || !message.trim() ? 'bg-gray-300' : 'bg-blue-500 hover:bg-blue-600'} text-white transition-colors`}
           disabled={isLoading || !message.trim()}
         >
           <Send size={18} />

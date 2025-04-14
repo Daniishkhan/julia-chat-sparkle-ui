@@ -5,9 +5,10 @@ import ChatInput from './ChatInput';
 import { findSubcontractors } from '../services/api';
 import { toast } from '../components/ui/sonner';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
-import { User, Bot } from 'lucide-react';
+import { User, Bot, Send } from 'lucide-react';
 import SubcontractorList from './SubcontractorList';
 import { ScrollArea } from './ui/scroll-area';
+import WelcomeMessage from './WelcomeMessage';
 
 interface Message {
   id: number;
@@ -79,20 +80,18 @@ const ChatInterface: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-gray-50">
+    <div className="flex flex-col h-screen bg-gray-50 max-w-5xl mx-auto rounded-lg shadow-sm overflow-hidden">
       <Header />
       
       {messages.length === 0 ? (
-        <div className="flex-1 flex flex-col items-center justify-center p-4">
-          <div className="max-w-xl w-full text-center">
-            <h1 className="text-3xl font-semibold text-gray-800 mb-6">What can I help with?</h1>
-            <div className="bg-white rounded-2xl shadow-lg p-2 mx-auto">
-              <ChatInput 
-                onSendMessage={handleSendMessage} 
-                isLoading={isLoading} 
-                placeholder="Ask anything about subcontractors..." 
-              />
-            </div>
+        <div className="flex-1 flex flex-col items-center justify-center p-6 bg-gradient-to-b from-purple-50 to-white">
+          <WelcomeMessage />
+          <div className="w-full max-w-xl mx-auto mt-4">
+            <ChatInput 
+              onSendMessage={handleSendMessage} 
+              isLoading={isLoading} 
+              placeholder="Ask anything about subcontractors..." 
+            />
           </div>
         </div>
       ) : (
